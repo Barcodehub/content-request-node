@@ -25,3 +25,15 @@ exports.updateUserProfile = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
+
+
+exports.deleteAccount = async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.user.id);
+    // Aquí deberías también eliminar todas las publicaciones, comentarios, etc. del usuario
+    res.json({ message: 'Account deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
