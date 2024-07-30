@@ -15,4 +15,8 @@ router.delete('/:type/:id', auth, likeController.removeLike);
 router.delete('/:friendId', auth, friendController.removeFriend);
 router.delete('/account', auth, userController.deleteAccount);
 
+router.put('/:postId', auth, postController.updatePost);
+router.put('/:commentId', auth, commentController.updateComment);
+router.get('/search', auth, userController.searchUsers);
+
 module.exports = router;

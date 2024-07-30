@@ -26,6 +26,21 @@ exports.updateUserProfile = async (req, res) => {
   }
 };
 
+exports.searchUsers = async (req, res) => {
+  try {
+    const { username } = req.query;
+    if (!username) {
+      return res.status(400).json({ message: 'Please provide a username to search' });
+    }
+    const users = await User.find({ 
+      username: { $regex: username, $options: 'i' } 
+    }).select('username email');
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 
 
 exports.deleteAccount = async (req, res) => {
@@ -37,3 +52,4 @@ exports.deleteAccount = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+

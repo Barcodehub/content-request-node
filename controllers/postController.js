@@ -109,3 +109,41 @@ exports.deleteComment = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+
+
+
+exports.updatePost = async (req, res) => {
+  try {
+    const { content } = req.body;
+    const post = await Post.findOneAndUpdate(
+      { _id: req.params.postId, author: req.user.id },
+      { content },
+      { new: true, runValidators: true }
+    );
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found or you are not the author' });
+    }
+    res.json(post);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+exports.updateComment = async (req, res) => {
+  try {
+    const { content } = req.body;
+    const comment = await Comment.findOneAndUpdate(
+      { _id: req.params.commentId, author: req.user.id },
+      { content },
+      { new: true, runValidators: true }
+    );
+    if (!comment) {
+      return res.status(404).json({ message: 'Comment not found or you are not the author' });
+    }
+    res.json(comment);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
